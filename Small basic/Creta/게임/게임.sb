@@ -1,0 +1,59 @@
+' *  Creta's while runtime source********** '
+' *                                                                         * '
+' *  이 프로그램은 주어진 조건이 될때까지 * '
+' *  실행하는 "While"문을 응용해                 * '
+' *  코드는 무한히 반복하되,                          * '
+' *  지정된 딜레이를 잡고 실행하는              * '
+' *  런타임입니다.                                             * '
+' *                                                                         * '
+' *  제작 : Creta                                  * '
+' *************************************** '
+
+fps = 30
+fpstick = 0
+ddy = 2
+deley = 0
+
+true = "true"
+false = "false"
+
+GraphicsWindow.Width = 854
+GraphicsWindow.Height = 480
+
+GraphicsWindow.FontName = "맑은 고딕"
+GraphicsWindow.FontSize = 16
+GraphicsWindow.FontBold = false
+
+While fpstick < fps
+  fpstick = fpstick + 1
+  
+ TextWindow.Clear()
+ 
+ TextWindow.WriteLine("DEBUG CONSOLE")
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("딜레이 / 갱신 대기 시간")
+ TextWindow.WriteLine(fps + "/" + fpstick)
+  
+  If fpstick >= fps Then
+    
+    fpstick = 0
+    deley = deley + 1
+    
+    If deley >= ddy Then
+      
+      deley = 0
+      
+      GraphicsWindow.Clear()
+      
+      GraphicsWindow.DrawBoundText(0,0,GraphicsWindow.Width,"Source by Creta")
+      
+      GraphicsWindow.DrawImage("image/제목 없음.png",0,0)
+      
+      '이곳에  그래픽코딩'
+      
+      EndIf
+   
+    '이곳에 프로그램코딩'
+    
+    EndIf
+  EndWhile

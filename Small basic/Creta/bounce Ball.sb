@@ -1,0 +1,212 @@
+false = "false"
+true = "true"
+
+GraphicsWindow.KeyDown = keyDownEvent
+GraphicsWindow.KeyUp = keyUpEvent
+
+keyDowns["enbled"] = true
+
+KEYe = ""
+
+Sub keyDownEvent
+  KEYe = GraphicsWindow.LastKey
+  keyDowns[KEYe] = true
+EndSub
+
+Sub keyUpEvent
+  KEYe = GraphicsWindow.LastKey
+  keyDowns[KEYe] = false
+EndSub
+
+floors = 20
+
+Sub Mapreset
+  If floors > 1 Then
+  keyDowns["Left"] = false
+  keyDowns["t"] = false
+  floors = floors - 1
+  GraphicsWindow.ShowMessage(floors + " 층 째, Score : " + scores, "")
+  
+GraphicsWindow.BrushColor = "white"
+GraphicsWindow.FillRectangle(0, 0, size * drawDistance, size * drawDistance)
+
+size = 100
+
+drawDistance = 30
+
+map["x"] = 0
+map["y"] = 0
+
+a = 0
+b = 0
+c = 0
+
+While a <= size
+  a = a + 1
+  c = 0
+  While c <= size
+    If Math.GetRandomNumber(15 + (floors / 4)) = 1 then
+      If Math.GetRandomNumber(5) = 1 then
+      b[a][c] = 2
+      Else
+      b[a][c] = 1
+      EndIf
+    EndIf
+    If Math.GetRandomNumber(30) = 1 then
+    b[a][c] = 3
+    EndIf
+    c = c + 1
+  EndWhile
+EndWhile
+
+a = 0
+While a <= size
+  a = a + 1
+  c = 0
+  While c <= size
+    If(b[a][c] = 1)Then
+      GraphicsWindow.BrushColor = "#C3C3C3"
+      GraphicsWindow.FillRectangle(map["x"] + (c * drawDistance), map["y"] + (a * drawDistance), drawDistance, drawDistance)
+      EndIf
+    If(b[a][c] = 2)Then
+      GraphicsWindow.BrushColor = "#79BCFF"
+      GraphicsWindow.FillRectangle(map["x"] + (c * drawDistance), map["y"] + (a * drawDistance), drawDistance, drawDistance)
+      EndIf
+    If(b[a][c] = 3)Then
+      GraphicsWindow.BrushColor = "#F9CE3C"
+      GraphicsWindow.FillEllipse(map["x"] + (c * drawDistance), map["y"] + (a * drawDistance), drawDistance, drawDistance)
+      EndIf
+    c = c + 1
+  EndWhile
+EndWhile
+Else
+  GraphicsWindow.ShowMessage("플레이 해 주셔서 감사합니다! Score : " + scores, "THANK YOU FOR PLAYING!")
+  Program.End()
+  EndIf
+EndSub
+
+
+  
+' *  Creta's while runtime source********** '
+' *                                                                         * '
+' *  이 프로그램은 주어진 조건이 될때까지 * '
+' *  실행하는 "While"문을 응용해                 * '
+' *  코드는 무한히 반복하되,                          * '
+' *  지정된 딜레이를 잡고 실행하는              * '
+' *  런타임입니다.                                             * '
+' *                                                                         * '
+' *  본 프로그램의 소스코드의 저작권은      * '
+' *  Creta에게 있습니다.                                  * '
+' *************************************** '
+
+fps = 20000
+fpstick = 0
+ddy = 2
+deley = 0
+
+true = "true"
+false = "false"
+
+GraphicsWindow.Top = 0
+GraphicsWindow.Left = 0
+GraphicsWindow.Width = Desktop.Width
+GraphicsWindow.Height = Desktop.Height
+
+GraphicsWindow.FontName = "맑은 고딕"
+GraphicsWindow.FontSize = 16
+GraphicsWindow.FontBold = false
+
+miliseconds = 0
+
+seconds = 0
+
+
+
+player["x"] = 300
+player["y"] = 10
+player["width"] = 20
+player["height"] = 20
+player["rotation"] = 0
+player["xspeed"] = 0
+player["yspeed"] = 0
+GraphicsWindow.BrushColor = "#0099FF"
+player["Object"] = Shapes.AddEllipse(player["width"], player["height"])
+
+While fpstick < fps
+  fpstick = fpstick + 1
+  If fpstick >= fps Then
+    
+    fpstick = 0
+    deley = deley + 1
+    
+   miliseconds = miliseconds + 1
+   
+   If miliseconds >= 60 then
+     seconds = seconds + 1
+     miliseconds = 0
+   EndIf
+   
+  If keyDowns["Left"] = true and player["xspeed"] > -3 Then
+    
+    player["xspeed"] = player["xspeed"] - 0.2
+    
+  ElseIf keyDowns["Right"]= true and player["xspeed"] < 3 Then
+    player["xspeed"] = player["xspeed"] + 0.2
+  EndIf
+  
+  
+  player["yspeed"] = player["yspeed"] + 0.4
+  
+  If player["yspeed"] >= player["height"] then
+    player["yspeed"] = player["height"] - 1
+  EndIf
+  
+  mWH = size * drawDistance
+  
+  GraphicsWindow.Title = "Score : " + scores
+  
+  If b[Math.Floor(0.5 + ((player["y"] + (player["width"] / 2)) / mWH) * size)][Math.Floor(0.5 + (player["x"] / mWH) * size)] = 2 then
+    player["yspeed"] = -12
+  EndIf
+  
+  If b[Math.Floor(0.5 + (player["y"] / mWH) * size)][Math.Floor(0.5 + (player["x"] / mWH) * size)] = 3 then
+    GraphicsWindow.BrushColor = "white"
+    scores = scores + 1 * (100 - floors)
+    b[Math.Floor(0.5 + (player["y"] / mWH) * size)][Math.Floor(0.5 + (player["x"] / mWH) * size)] = 0
+    GraphicsWindow.FillRectangle(Math.Floor(0.5 + (player["x"] / mWH) * size) * drawDistance, Math.Floor(0.5 + (player["y"] / mWH) * size) * drawDistance, drawDistance, drawDistance)
+  EndIf
+  
+  If b[Math.Floor(0.5 + ((player["y"] + (player["width"] / 2)) / mWH) * size)][Math.Floor(0.5 + (player["x"] / mWH) * size)] = 1 then
+    player["yspeed"] = -8
+  EndIf
+  
+  If b[Math.Floor(0.5 + ((player["y"] - (player["width"] / 2)) / mWH) * size)][Math.Floor(0.5 + (player["x"] / mWH) * size)] = 1 then
+    player["yspeed"] = 4
+  EndIf
+  
+  If b[Math.Floor(0.5 + (player["y"] / mWH) * size)][Math.Floor(0.5 + ((player["x"] + player["width"] / 2) / mWH) * size)] = 1 then
+    player["x"] = Math.Floor(0.5 + ((player["x"] / mWH) * mWH))
+    player["xspeed"] = -(Math.abs(player["xspeed"])) + 0.2
+  EndIf
+  
+  If b[Math.Floor(0.5 + (player["y"] / mWH) * size)][Math.Floor(0.5 + ((player["x"] - player["width"] / 2) / mWH) * size)] = 1 then
+    player["x"] = Math.Floor(0.5 + ((player["x"] / mWH) * mWH))
+    player["xspeed"] = Math.abs(player["xspeed"]) - 0.2
+  EndIf
+  
+  player["x"] = player["x"] + player["xspeed"]
+  
+  player["y"] = player["y"] + player["yspeed"]
+  
+  If player["y"] > 1000 then
+  
+  player["yspeed"] = 0
+  player["y"] = 0
+  Mapreset()
+  EndIf
+  
+  Shapes.Move(player["Object"], player["x"], player["y"])
+  Shapes.Rotate(player["Object"], player["rotation"])
+   
+   EndIf
+EndWhile

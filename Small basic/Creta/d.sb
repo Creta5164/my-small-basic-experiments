@@ -1,0 +1,13 @@
+While(D<>0)
+TextWindow.WriteLine("몇단?")
+D = TextWindow.Read()
+If(D=0)Then
+  TextWindow.WriteLine("End")
+
+Else
+For i=1 To 9
+  b=D*i
+  TextWindow.WriteLine(D+"*"+i+"="+b)
+EndFor
+EndIf
+  EndWhile

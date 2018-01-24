@@ -1,0 +1,19 @@
+TextWindow.WriteLine("summit your first score.")
+score[0] = TextWindow.Read()
+TextWindow.Clear()
+TextWindow.WriteLine("summit your second score.")
+score[1] = TextWindow.Read()
+TextWindow.Clear()
+TextWindow.WriteLine("your score is...")
+a = 0
+While a < 5000000
+  a = a + 1
+EndWhile
+totalscore = (score[0] + score[1]) / 2
+If totalscore > 60 Then
+TextWindow.WriteLine(totalscore + "!")
+TextWindow.WriteLine("you passed a test!")
+Else
+TextWindow.WriteLine(totalscore + "...")
+TextWindow.WriteLine("FAILD...")
+EndIf

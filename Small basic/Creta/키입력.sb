@@ -1,0 +1,108 @@
+GraphicsWindow.KeyDown = kDown
+GraphicsWindow.KeyUp = kUp
+
+false = "false"
+true = "true"
+
+zK = false
+xK = false
+cK = false
+
+Sub kDown
+  If GraphicsWindow.LastKey = "Z" Then
+    zK = true
+  ElseIf GraphicsWindow.LastKey = "X" Then
+    xK = true
+  ElseIf GraphicsWindow.LastKey = "C" Then
+    cK = true
+  EndIf
+EndSub
+
+Sub kUp
+  If GraphicsWindow.LastKey = "Z" Then
+    zK = false
+  ElseIf GraphicsWindow.LastKey = "X" Then
+    xK = false
+  ElseIf GraphicsWindow.LastKey = "C" Then
+    cK = false
+  EndIf
+  
+EndSub
+  
+' *  Creta's while runtime source********** '
+' *                                                                         * '
+' *  이 프로그램은 주어진 조건이 될때까지 * '
+' *  실행하는 "While"문을 응용해                 * '
+' *  코드는 무한히 반복하되,                          * '
+' *  지정된 딜레이를 잡고 실행하는              * '
+' *  런타임입니다.                                             * '
+' *                                                                         * '
+' *  아래 예제 소스는 적당한 시간제한을 둬* '
+' *  적당한 속도로 표시되는                            * '
+' *  값이 올라갑니다.                                        * '
+' *  기본 양식과는 다르게 이 소스는             * '
+' *  표시의 텀을 ddy의 값만큼 지연함으로써,* '
+' *  표시에 최적화를 한 소스입니다.             * '
+' *                                                                         * '
+' *                                                                         * '
+' *  본 프로그램의 소스코드의 저작권은      * '
+' *  Creta에게 있습니다.                                  * '
+' *************************************** '
+
+fps = 30
+fpstick = 0
+ddy = 2
+deley = 0
+
+true = "true"
+false = "false"
+
+GraphicsWindow.Width = 854
+GraphicsWindow.Height = 480
+
+GraphicsWindow.FontName = "맑은 고딕"
+GraphicsWindow.FontSize = 16
+GraphicsWindow.FontBold = false
+
+miliseconds = 0
+
+seconds = 0
+
+     GraphicsWindow.BrushColor = "#0099FF"
+player["name"] = Shapes.AddEllipse(50,50)
+player["x"] = 100
+player["y"] = 0
+player["yspeed"] = 0
+
+While fpstick < fps
+  fpstick = fpstick + 1
+  
+ TextWindow.Clear()
+ 
+ TextWindow.WriteLine("DEBUG CONSOLE")
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("딜레이 / 갱신 대기 시간")
+ TextWindow.WriteLine(fps + "/" + fpstick)
+  
+  If fpstick >= fps Then
+    
+    fpstick = 0
+    deley = deley + 1
+    
+   miliseconds = miliseconds + 1
+   
+   If miliseconds >= 60 then
+     seconds = seconds + 1
+     miliseconds = 0
+     EndIf
+   
+     If zK = true then
+       player["yspeed"] = -5
+     EndIf
+     player["y"] = player["y"] + player["yspeed"]
+     player["yspeed"] = player["yspeed"] + 0.25
+     
+     Shapes.Move(player["name"], player["x"], player["y"])
+     
+    EndIf
+  EndWhile

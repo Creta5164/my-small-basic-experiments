@@ -1,0 +1,251 @@
+﻿ticker = 0
+
+tick = 80
+
+GraphicsWindow.Width = 1024
+GraphicsWindow.Height = 768
+
+GraphicsWindow.FontSize = 48
+
+mousex = Mouse.MouseX - GraphicsWindow.Left
+mousey = Mouse.MouseY - GraphicsWindow.Top
+
+false = "false"
+true = "true"
+
+hold = false
+
+gameover = false
+
+yspeed = 0
+
+movieclip[0] = 240
+movieclip[1] = 400
+movieclip[2] = "ÿ"
+
+pipes[0] = 1024
+pipes[1] = 768 - movieclip[1]
+If pipes[1] > 600 then
+   pipes[1] = 600
+EndIf
+pipes[2] = 1364
+pipes[3] = 532
+pipes[4] = 1804
+pipes[5] = 120
+
+rich = 0
+
+score = 0
+
+pipepass[0] = false
+pipepass[1] = false
+pipepass[2] = false
+
+movespeed = 10
+
+getready = 60
+
+While ticker < tick
+  
+  ticker = ticker + 1
+  
+  mousex = Mouse.MouseX - GraphicsWindow.Left
+  mousey = Mouse.MouseY - GraphicsWindow.Top
+  
+    'TextWindow.Clear()'
+    'TextWindow.WriteLine(ticker)'
+    'TextWindow.WriteLine(movieclip[1])'
+    'TextWindow.WriteLine(gameover)'
+    If ticker = tick Then
+      GraphicsWindow.Clear()
+	  GraphicsWindow.FontSize = 12
+	  GraphicsWindow.FontName = "맑은 고딕"
+	  GraphicsWindow.FontBold = false
+          GraphicsWindow.DrawBoundText(0,0,1024,"제작 : Creta")
+	  GraphicsWindow.FontBold = true
+	  GraphicsWindow.FontSize = 48
+        movieclip[1] = movieclip[1] + yspeed
+      If gameover = false then
+        
+        If getready > 0 then
+          getready = getready - 1
+          GraphicsWindow.DrawBoundText(-128 + (1024 / 2),200,1024+48,"Get Ready!")
+            GraphicsWindow.DrawBoundText(-192 + (1024 / 2),350,1024+48,"클릭하면 점프합니다.")
+        EndIf
+        
+            pipes[0] = pipes[0] - 5
+            If pipes[0] < -100 then
+              pipes[0] = 1024
+              pipepass[0] = false
+              pipes[1] = 768 - movieclip[1]
+              If pipes[1] > 600 then
+                pipes[1] = 600
+              EndIf
+            EndIf
+            pipes[2] = pipes[2] - 5
+            If pipes[2] < -100 then
+              pipes[2] = 1024
+              pipepass[1] = false
+              pipes[3] = 768 - movieclip[1]
+              If pipes[3] > 600 then
+                pipes[3] = 600
+              EndIf
+            EndIf
+            pipes[4] = pipes[4] - 5
+            If pipes[4] < -100 then
+              pipes[4] = 1024
+              pipepass[2] = false
+              pipes[5] = 768 - movieclip[1]
+              If pipes[5] > 600 then
+                pipes[5] = 600
+              EndIf
+            EndIf
+            
+            If movieclip[0] + 30 > pipes[0] Then
+              If movieclip[0] < pipes[0] + 100 Then
+                If movieclip[1] < pipes[1] - 80 Then
+                  gameover = true
+                EndIf
+                If movieclip[1] + 48 > pipes[1] + 80 Then
+                  gameover = true
+                EndIf
+              EndIf
+            EndIf
+            If movieclip[0] + 30 > pipes[2] Then
+              If movieclip[0] < pipes[2] + 100 Then
+                If movieclip[1] < pipes[3] - 80 Then
+                  gameover = true
+                EndIf
+                If movieclip[1] + 48 > pipes[3] + 80 Then
+                  gameover = true
+                EndIf
+              EndIf
+            EndIf
+            If movieclip[0] + 30 > pipes[4] Then
+              If movieclip[0] < pipes[4] + 100 Then
+                If movieclip[1] < pipes[5] - 80 Then
+                  gameover = true
+                EndIf
+                If movieclip[1] + 48 > pipes[5] + 80 Then
+                  gameover = true
+                EndIf
+              EndIf
+            EndIf
+            if movieclip[0] > pipes[0] then
+              If pipepass[0] = false Then
+              pipepass[0] = true
+              score = score + 1
+              EndIf
+            EndIf
+            if movieclip[0] > pipes[2] then
+              If pipepass[1] = false Then
+              pipepass[1] = true
+              score = score + 1
+              EndIf
+            EndIf
+            if movieclip[0] > pipes[4] then
+              If pipepass[2] = false Then
+              pipepass[2] = true
+              score = score + 1
+              EndIf
+            EndIf
+        rich = rich + 1
+        
+        If rich > 48 then
+          rich = 0
+        EndIf
+        
+        GraphicsWindow.DrawBoundText(rich * -5,675,1024+(48 * 7),"-----------------------------------------------------------------------------------")
+        
+        GraphicsWindow.FontSize = 96
+
+        GraphicsWindow.FontName = "OCR A Extended"
+        
+        GraphicsWindow.DrawBoundText(-96 + (1024 / 2),100,1024+48,score)
+        
+        GraphicsWindow.FontSize = 48
+        If Mouse.IsLeftButtonDown Then
+          If hold = false then
+          yspeed = -12
+          hold = true
+          EndIf
+        Else
+          hold = false
+        EndIf
+        
+          Else
+            GraphicsWindow.DrawBoundText(rich * -5,675,1024+(48 * 7),"-----------------------------------------------------------------------------------")
+        
+            GraphicsWindow.FontSize = 96
+
+            GraphicsWindow.FontName = "OCR A Extended"
+        
+            GraphicsWindow.DrawBoundText(-96 + (1024 / 2),100,1024+48,score)
+        
+            GraphicsWindow.FontSize = 48
+          EndIf
+          
+          GraphicsWindow.DrawRectangle(pipes[0],0,100,pipes[1] - 80)
+          GraphicsWindow.DrawRectangle(pipes[0],pipes[1] + 80,100,(650 - pipes[1]))
+          
+          GraphicsWindow.DrawRectangle(pipes[2],0,100,pipes[3] - 80)
+          GraphicsWindow.DrawRectangle(pipes[2],pipes[3] + 80,100,(650 - pipes[3]))
+          
+          GraphicsWindow.DrawRectangle(pipes[4],0,100,pipes[5] - 80)
+          GraphicsWindow.DrawRectangle(pipes[4],pipes[5] + 80,100,(650 - pipes[5]))
+          
+          yspeed = yspeed + 1
+          While movieclip[1] > 675
+            movieclip[1] = 675
+            yspeed = 0
+            gameover = true
+            
+            GraphicsWindow.FontName = "휴먼아미체"
+            GraphicsWindow.DrawBoundText(-128 + (1024 / 2),200,1024+48,"게임 오버...")
+            GraphicsWindow.DrawBoundText(-192 + (1024 / 2),350,1024+48,"다시 하려면 클릭!")
+            
+            If Mouse.IsLeftButtonDown Then
+              hold = false
+
+              gameover = false
+
+              yspeed = 0
+
+              movieclip[0] = 240
+              movieclip[1] = 400
+              movieclip[2] = "ÿ"
+
+              pipes[0] = 1024
+              pipes[1] = 768 - movieclip[1]
+              If pipes[1] > 600 then
+                 pipes[1] = 600
+              EndIf
+              pipes[2] = 1364
+              pipes[3] = 532
+              pipes[4] = 1804
+              pipes[5] = 120
+
+              rich = 0
+
+              score = 0
+
+              pipepass[0] = false
+              pipepass[1] = false
+              pipepass[2] = false
+              getready = 60
+              EndIf
+            EndWhile
+          
+          While movieclip[1] < 5
+            movieclip[1] = 6
+            EndWhile
+        GraphicsWindow.FontName = "Webdings"
+        GraphicsWindow.DrawBoundText(movieclip[0],movieclip[1],50,movieclip[2])
+        GraphicsWindow.FontName = "Arial"
+      ticker = 0
+      EndIf
+EndWhile
+
+
+
+

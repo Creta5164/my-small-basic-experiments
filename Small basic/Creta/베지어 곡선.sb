@@ -1,0 +1,139 @@
+p1["x"] = 0
+p1["y"] = 0
+p2["x"] = 0
+p2["y"] = 0
+p3["x"] = 0
+p3["y"] = 0
+positions = 0
+B_point["x"] = 0
+B_point["y"] = 0
+Turtle.Show()
+GraphicsWindow.Clear()
+Turtle.Speed = 5
+
+GraphicsWindow.Width = 1280
+GraphicsWindow.Height = 720
+
+Sub bezieaCurves
+  
+  B_bezieaP = 1 - positions
+  B_bezieaPD = B_bezieaP * B_bezieaP
+  B_positionD = positions * positions
+  
+  B_point["x"] = p1["x"] * B_bezieaPD + 2 * p2["x"] * B_bezieaP * positions + p3["x"] * B_positionD
+  
+  B_point["y"] = p1["y"] * B_bezieaPD + 2 * p2["y"] * B_bezieaP * positions + p3["y"] * B_positionD
+  
+EndSub
+
+Sub pickRandom
+  
+  p1["x"] = Math.GetRandomNumber(GraphicsWindow.Width)
+  p1["y"] = Math.GetRandomNumber(GraphicsWindow.Height)
+  p2["x"] = Math.GetRandomNumber(GraphicsWindow.Width)
+  p2["y"] = Math.GetRandomNumber(GraphicsWindow.Height)
+  p3["x"] = Math.GetRandomNumber(GraphicsWindow.Width)
+  p3["y"] = Math.GetRandomNumber(GraphicsWindow.Height)
+  
+  border = 200
+  
+  If p1["x"] < border Then
+    p1["x"] = border
+  ElseIf p1["x"] > GraphicsWindow.Width - border then
+    p1["x"] = GraphicsWindow.Width - border
+  EndIf
+  
+  If p2["x"] < border Then
+    p2["x"] = border
+  ElseIf p2["x"] > GraphicsWindow.Width - border then
+    p2["x"] = GraphicsWindow.Width - border
+  EndIf
+  
+  If p3["x"] < border Then
+    p3["x"] = border
+  ElseIf p3["x"] > GraphicsWindow.Width - border then
+    p3["x"] = GraphicsWindow.Width - border
+  EndIf
+  
+  If p1["y"] < border Then
+    p1["y"] = border
+  ElseIf p1["y"] > GraphicsWindow.Height - border then
+    p1["y"] = GraphicsWindow.Height - border
+  EndIf
+  
+  If p2["y"] < border Then
+    p2["y"] = border
+  ElseIf p2["y"] > GraphicsWindow.Height - border then
+    p2["y"] = GraphicsWindow.Height - border
+  EndIf
+  
+  If p3["y"] < border Then
+    p3["y"] = border
+  ElseIf p3["y"] > GraphicsWindow.Height - border then
+    p3["y"] = GraphicsWindow.Height - border
+  EndIf
+  
+  size = 10
+  
+  GraphicsWindow.BrushColor = "#0080FF"
+  GraphicsWindow.DrawBoundText(p1["x"], p1["y"], 1000, "시작점 - x :" + p1["x"] +", y : " + p1["y"])
+  GraphicsWindow.FillRectangle(p1["x"] - (size / 2), p1["y"] - (size / 2), size, size)
+  
+  GraphicsWindow.BrushColor = "#00B500"
+  GraphicsWindow.DrawBoundText(p2["x"], p2["y"], 1000, "조절점 - x :" + p2["x"] +", y : " + p2["y"])
+  GraphicsWindow.FillRectangle(p2["x"] - (size / 2), p2["y"] - (size / 2), size, size)
+  
+  GraphicsWindow.BrushColor = "#FF8040"
+  GraphicsWindow.DrawBoundText(p3["x"], p3["y"], 1000, "도착점 - x :" + p3["x"] +", y : " + p3["y"])
+  GraphicsWindow.FillRectangle(p3["x"] - (size / 2), p3["y"] - (size / 2), size, size)
+  
+EndSub
+
+bb_point["x"] = B_point["x"]
+bb_point["y"] = B_point["y"]
+
+Sub bezieaTurtle
+  
+  GraphicsWindow.PenColor = "#0067CE"
+  While positions < 1
+    bezieaCurves()
+    bb_point["x"] = B_point["x"]
+    bb_point["y"] = B_point["y"]
+    positions = positions + 0.01
+    bezieaCurves()
+    If positions >= 0.5 Then
+      GraphicsWindow.PenColor = "#00B500"
+      EndIf
+    GraphicsWindow.DrawLine(bb_point["x"], bb_point["y"], B_point["x"], B_point["y"])
+    Program.Delay(10)
+    EndWhile
+    GraphicsWindow.DrawBoundText(p3["x"] - 150, p3["y"] - 12, 1000, "클릭하면 다시 그립니다.")
+  EndSub
+
+Sub reset
+  p1["x"] = 0
+  p1["y"] = 0
+  p2["x"] = 0
+  p2["y"] = 0
+  p3["x"] = 0
+  p3["y"] = 0
+  positions = 0
+  B_point["x"] = 0
+  B_point["y"] = 0
+  GraphicsWindow.Clear()
+  Turtle.Show()
+EndSub
+
+pickRandom()
+bezieaTurtle()
+
+true = "true"
+false = "false"
+
+While true = "true"
+  If Mouse.IsLeftButtonDown Then
+    reset()
+    pickRandom()
+    bezieaTurtle()
+    EndIf
+  EndWhile

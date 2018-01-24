@@ -1,0 +1,173 @@
+items[0][0] = "Note"
+items[0][1] = 10000
+items[1][0] = "Book"
+items[1][1] = 15000
+items[2][0] = "Pencil"
+items[2][1] = 8000
+items[3][0] = "Eraser"
+items[3][1] = 9000
+items[4][0] = "new Nintendo 3DS"
+items[4][1] = 240000
+
+false = "false"
+true = "true"
+
+null = 0
+
+Sub checkItems
+  TextWindow.Clear()
+  TextWindow.WriteLine("진열된 상품의 목록입니다.===============================")
+  
+  nex = false
+  
+  For i = 0 To Array.GetItemCount(items) - 1
+      If nex = false Then
+        TextWindow.Write("* " + items[i][0] + " : " + items[i][1] + "           ")
+        nex = true
+      Else
+        TextWindow.WriteLine("* " + items[i][0] + " : " + items[i][1])
+        nex = false
+      EndIf
+  EndFor
+  If nex = true Then
+    TextWindow.WriteLine("")
+    EndIf
+    TextWindow.WriteLine("========================================================")
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("상품을 구입하거나 추가할 수 있습니다.")
+    TextWindow.WriteLine("상품을 구입하실려면 '상품구입'을, 상품을 추가하시려면 '상품추가'를 입력하세요.")
+    conform = TextWindow.Read()
+    If conform = "상품구입" Then
+      howMuch()
+    ElseIf conform = "상품추가" Then
+      addItems()
+    Else
+      checkItems()
+    EndIf
+    
+EndSub
+
+selectedItem = 0
+
+  Sub howMuch
+    TextWindow.WriteLine("구매하실 상품의 이름을 입력해주세요. (대소문자 구분)")
+    getItemName = TextWindow.Read()
+    
+    finditem = ""
+    
+    For i = 0 To Array.GetItemCount(items) - 1
+      If items[i][0] = getItemName Then
+        finditem = items[i][0]
+        selectedItem[0] = i
+        EndIf
+      EndFor
+      If finditem = "" Then
+        TextWindow.WriteLine("입력하신 이름의 상품이 없습니다!")
+        howMuch()
+      ElseIf finditem = "뒤로" Then
+        checkItems()
+      Else
+        TextWindow.Clear()
+        howMany()
+      EndIf
+EndSub
+
+manys = 0
+
+Sub howMany
+  textWindow.WriteLine("선택하신 상품을 얼마나 구매하시겠습니까?")
+  manys = TextWindow.Read()
+  checkoutItem()
+EndSub
+
+Sub checkoutItem
+  TextWindow.Clear()
+  TextWindow.WriteLine("구매하기 전 구매내역을 확인하여 주시길 바랍니다.========")
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("상품명 : " + items[selectedItem[0]][0])
+  TextWindow.WriteLine("상품 가격 : " + items[selectedItem[0]][1])
+  TextWindow.WriteLine("개수 : " + manys + " (" + (items[selectedItem[0]][1] * manys) + ")")
+  sends = 0
+  if totalResult - Math.Round((items[selectedItem[0]][1] * manys) * 0.1) >= 30000 Then
+    TextWindow.WriteLine("배송비 (3만원 이상일 경우 배송비 무료) : 0")
+  Else
+    TextWindow.WriteLine("배송비 (3만원 이상일 경우 배송비 무료) : 2500")
+    sends = 2500
+  EndIf
+  TextWindow.WriteLine("부가가치세 : 10% (" + Math.Round((items[selectedItem[0]][1] * manys) * 0.1) + ")")
+  TextWindow.WriteLine("--------------------------------------------------------")
+  totalResult = ((items[selectedItem[0]][1] * manys) + Math.Round((items[selectedItem[0]][1] * manys) * 0.1))
+  TextWindow.WriteLine("총 가격 : " + totalResult)
+  
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("========================================================")
+  TextWindow.WriteLine("배송비 합산 총 가격 : " + totalResult + sends)
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("이 내역으로 주문하시겠습니까?")
+  TextWindow.WriteLine("'구매'를 입력하면 위 내역으로 상품을 구입하고,")
+  TextWindow.WriteLine("'취소'를 입력하면 상품 목록으로 이동합니다.")
+  conform = TextWindow.Read()
+  If conform = "구매" Then
+    buyed()
+  ElseIf conform = "취소" then
+    checkItems()
+  Else
+    checkoutItem()
+  EndIf
+  
+EndSub
+
+Sub buyed
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("저희 제품을 구매해주셔서 감사합니다!")
+  TextWindow.WriteLine("빠른 시간 내로 제품을 배송하겠습니다.")
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("엔터를 누르면 상품 목록으로 이동합니다.")
+  TextWindow.Read()
+  checkItems()
+EndSub
+
+names = ""
+deals = 0
+
+Sub addItems
+  TextWindow.WriteLine("상품을 추가합니다.")
+  TextWindow.WriteLine("상품의 이름을 입력해주세요.")
+  names = TextWindow.Read()
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("상품의 가격을 입력해주세요.")
+  deals = TextWindow.Read()
+  TextWindow.WriteLine("")
+  checkaddItems()
+EndSub
+
+Sub checkaddItems
+  TextWindow.Clear()
+  TextWindow.WriteLine("상품명 : " + names)
+  TextWindow.WriteLine("상품 가격 : " + deals)
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("이 내용으로 추가하시겠습니까?")
+  TextWindow.WriteLine("'확인'을 입력하면 제품이 추가되고,")
+  TextWindow.WriteLine("'취소'를 입력하면 상품 목록으로 이동합니다.")
+  conform = TextWindow.Read()
+  If conform = "확인" Then
+    pushed()
+  ElseIf conform = "취소" then
+    checkItems()
+  Else
+    checkaddItems()
+  EndIf
+EndSub
+
+Sub pushed
+  TextWindow.WriteLine("")
+  items[Array.GetItemCount(items)][0] = names
+  items[Array.GetItemCount(items) - 1][1] = deals
+  TextWindow.WriteLine("상품이 성공적으로 추가되었습니다!")
+  TextWindow.WriteLine("")
+  TextWindow.WriteLine("엔터를 누르면 상품 목록으로 이동합니다.")
+  TextWindow.Read()
+  checkItems()
+  EndSub
+
+checkItems()

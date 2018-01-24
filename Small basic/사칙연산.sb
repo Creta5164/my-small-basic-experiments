@@ -1,0 +1,58 @@
+TextWindow.WriteLine("첫번째 인수(Number)속성의 값을 입력하십시오.")
+a = TextWindow.Read()
+TextWindow.Clear()
+TextWindow.WriteLine("두번째 인수(Number)속성의 값을 입력하십시오.")
+b = TextWindow.Read()
+TextWindow.Clear()
+
+TextWindow.WriteLine("세번째 인수(String)속성의 값을 입력하십시오.")
+TextWindow.WriteLine("세번째 인수는 사칙연산부호를 결정합니다.")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("목록 : plus, minus, multiple ,devide")
+TextWindow.WriteLine("설명-------------------------------------------")
+TextWindow.WriteLine("")
+TextWindow.BackgroundColor = "white"
+TextWindow.ForegroundColor = "black"
+TextWindow.WriteLine("plus는 첫번째 인수와 두번째 인수를 더한 값을 반환합니다.")
+TextWindow.WriteLine("minus는 첫번째 인수에 두번째 인수를 뺀 값을 반환합니다.")
+TextWindow.WriteLine("multiple은 첫번째 인수와 두번째 인수를 곱한 값을 반환합니다.")
+TextWindow.WriteLine("devide는 첫번째 인수를 두번째 인수로 나눈 값을 반환합니다, 이 결과는 소숫점으로 표시됩니다.")
+TextWindow.BackgroundColor = "black"
+TextWindow.ForegroundColor = "gray"
+c = TextWindow.Read()
+TextWindow.Clear()
+
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+
+If c = "plus" Then
+  TextWindow.Write(a + " + " + b + " = ")
+  TextWindow.Write(a + b)
+  ElseIf c = "minus" Then
+  TextWindow.Write(a + " - " + b + " = ")
+  TextWindow.Write(a - b)
+  ElseIf c = "multiple" Then
+  TextWindow.Write(a + " × " + b + " = ")
+  TextWindow.Write(a * b)
+  ElseIf c = "devide" Then
+  TextWindow.Write(a + " ÷ " + b + " = ")
+  TextWindow.Write(a / b)
+  Else
+  TextWindow.Write("입력한 문자가 조건에 해당되지 않습니다.")
+EndIf
+  
+TextWindow.WriteLine("")
+TextWindow.WriteLine("엔터 : 확인")
+TextWindow.WriteLine("")
+TextWindow.Read()
+
+TextWindow.Clear()
+
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("프로그램이 끝났습니다.")
+TextWindow.WriteLine("엔터 : 종료")
+TextWindow.WriteLine("")
+TextWindow.Read()
+
+Program.End()

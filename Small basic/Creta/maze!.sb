@@ -1,0 +1,200 @@
+restart:
+
+GraphicsWindow.Width = 1280
+GraphicsWindow.Height = 720
+
+size = 30
+
+drawDistance = 20
+
+map["x"] = 50
+map["y"] = 50
+
+a = 0
+b = 0
+c = 0
+
+While a <= size
+  a = a + 1
+  c = 0
+  While c <= size
+    If a <= 1 or a >= size - 1 or c <= 1 or c >= size - 1 Then
+      b[a][c] = 1
+    Else
+      If Math.GetRandomNumber(3) = 1 then
+      b[a][c] = 1
+      EndIf
+      EndIf
+    c = c + 1
+  EndWhile
+EndWhile
+
+GraphicsWindow.BrushColor = "white"
+GraphicsWindow.FillRectangle(map["x"], map["y"], size * drawDistance, size * drawDistance)
+
+a = 0
+While a <= size
+  a = a + 1
+  c = 0
+  While c <= size
+    If(c = size)Then
+      TextWindow.WriteLine(b[a][c])
+    Else
+      TextWindow.Write(b[a][c])
+    EndIf
+    If(b[a][c] = 1)Then
+      GraphicsWindow.BrushColor = "blue"
+      GraphicsWindow.FillRectangle(map["x"] + (c * drawDistance) - (drawDistance / 2), map["y"] + (a * drawDistance) - (drawDistance / 2), drawDistance, drawDistance)
+      GraphicsWindow.PenColor = "white"
+      GraphicsWindow.DrawRectangle(map["x"] + (c * drawDistance) - (drawDistance / 2), map["y"] + (a * drawDistance) - (drawDistance / 2), drawDistance, drawDistance)
+      EndIf
+    c = c + 1
+  EndWhile
+EndWhile
+
+
+angle = 0
+
+turtlex = -1 + Math.GetRandomNumber(size)
+turtley = -1 + Math.GetRandomNumber(size)
+
+Turtle.X = map["x"] + (turtlex * drawDistance)
+Turtle.Y = map["y"] + (turtley * drawDistance)
+
+Turtle.Speed = 5
+
+Turtle.Show()
+
+false = "false"
+true = "true"
+
+d = Math.GetRandomNumber(3)
+
+GraphicsWindow.PenColor = "green"
+
+vals = 15
+
+a = 0
+While a < 1000
+  
+  If Mouse.IsLeftButtonDown Then
+    Goto restart
+    EndIf
+  
+  If a = 0 Then
+    d = Math.GetRandomNumber(vals)
+    TextWindow.WriteLine(d)
+    TextWindow.WriteLine(angle)
+    TextWindow.WriteLine(turtlex)
+    TextWindow.WriteLine(turtley)
+    
+    If angle = "up" Then
+      If b[turtley - 1][turtlex] = 1 then
+        If d <= vals / 1.25 then
+          angle = "right"
+          Turtle.TurnRight()
+        Else
+          angle = "left"
+          Turtle.TurnLeft()
+        EndIf
+      Else
+        If d = 1 then
+          angle = "right"
+          Turtle.TurnRight()
+        ElseIf d = 2 then
+          angle = "left"
+          Turtle.TurnLeft()
+        Else
+          turtley = turtley - 1
+          Turtle.MoveTo(map["x"] + (turtlex * drawDistance), map["y"] + (turtley * drawDistance))
+        EndIf  
+      EndIf
+      
+    ElseIf angle = "down" Then
+      If b[turtley + 1][turtlex] = 1 then
+        If d <= 2 then
+          angle = "left"
+          Turtle.TurnRight()
+        Else
+          angle = "right"
+          Turtle.TurnLeft()
+        EndIf
+      Else
+        If d = 1 then
+          angle = "left"
+          Turtle.TurnRight()
+        ElseIf d = 2 then
+          angle = "right"
+          Turtle.TurnLeft()
+        Else
+          turtley = turtley + 1
+          Turtle.MoveTo(map["x"] + (turtlex * drawDistance), map["y"] + (turtley * drawDistance))
+        EndIf  
+      EndIf
+      
+    ElseIf angle = "left" Then
+      If b[turtley][turtlex - 1] = 1 then
+        If d <= 2 then
+          angle = "up"
+          Turtle.TurnRight()
+        Else
+          angle = "down"
+          Turtle.TurnLeft()
+        EndIf
+      Else
+        If d = 1 then
+          angle = "up"
+          Turtle.TurnRight()
+        ElseIf d = 2 then
+          angle = "down"
+          Turtle.TurnLeft()
+        Else
+          turtlex = turtlex - 1
+          Turtle.MoveTo(map["x"] + (turtlex * drawDistance), map["y"] + (turtley * drawDistance))
+        EndIf  
+      EndIf
+      
+    ElseIf angle = "right" Then
+      If b[turtley][turtlex + 1] = 1 then
+        If d <= 2 then
+          angle = "down"
+          Turtle.TurnRight()
+        Else
+          angle = "up"
+          Turtle.TurnLeft()
+        EndIf
+      Else
+        If d = 1 then
+          angle = "down"
+          Turtle.TurnRight()
+        ElseIf d = 2 then
+          angle = "up"
+          Turtle.TurnLeft()
+        Else
+          turtlex = turtlex + 1
+          Turtle.MoveTo(map["x"] + (turtlex * drawDistance), map["y"] + (turtley * drawDistance))
+        EndIf  
+      EndIf
+      
+    Else
+      angle = "down"
+    EndIf
+    TextWindow.WriteLine("====================")
+  EndIf
+  
+  a = a + 1
+  If a > 999 Then
+    a = 0
+    EndIf
+  
+EndWhile
+
+
+
+
+
+
+
+
+
+

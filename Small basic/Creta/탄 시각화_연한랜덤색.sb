@@ -1,0 +1,181 @@
+' *  Creta's while runtime source********** '
+' *                                                                         * '
+' *  이 프로그램은 주어진 조건이 될때까지 * '
+' *  실행하는 "While"문을 응용해                 * '
+' *  코드는 무한히 반복하되,                          * '
+' *  지정된 딜레이를 잡고 실행하는              * '
+' *  런타임입니다.                                             * '
+' *                                                                         * '
+' *  아래 예제 소스는 적당한 시간제한을 둬* '
+' *  적당한 속도로 표시되는                            * '
+' *  값이 올라갑니다.                                        * '
+' *  기본 양식과는 다르게 이 소스는             * '
+' *  표시의 텀을 ddy의 값만큼 지연함으로써,* '
+' *  표시에 최적화를 한 소스입니다.             * '
+' *                                                                         * '
+' *  제작 : Creta                                  * '
+' *************************************** '
+
+fps = 30
+fpstick = 0
+ddy = 2
+deley = 0
+
+true = "true"
+false = "false"
+
+GraphicsWindow.Width = 854
+GraphicsWindow.Height = 480
+
+GraphicsWindow.FontName = "맑은 고딕"
+GraphicsWindow.FontSize = 16
+GraphicsWindow.FontBold = false
+
+miliseconds = 0
+
+seconds = 0
+
+speed = 1
+
+e = 0
+
+randomspeed = 20
+
+For i = 0 to 50
+  tan[i][0] = 427
+  tan[i][1] = 240
+  tan[i][2] = -randomspeed + Math.GetRandomNumber(randomspeed * 2)
+  tan[i][3] = -randomspeed + Math.GetRandomNumber(randomspeed * 2)
+  r = Math.GetRandomNumber(5)
+  If r = 1 then
+    tan[i][4] = "#0099FF"
+    EndIf
+  If r = 2 then
+    tan[i][4] = "#FB642B"
+    EndIf
+  If r = 3 then
+    tan[i][4] = "#8FEF61"
+    EndIf
+  If r = 4 then
+    tan[i][4] = "#BE73F7"
+    EndIf
+  If r = 5 then
+    tan[i][4] = "#F376C5"
+    EndIf
+  EndFor
+  
+  c = "#000000"
+  randomcolors:
+  For xz = 0 To 6
+    rr = Math.GetRandomNumber(15)
+    If rr = 10 Then
+      cA[xz] = "A"
+      EndIf
+    If rr = 11 Then
+      cA[xz] = "B"
+      EndIf
+    If rr = 12 Then
+      cA[xz] = "C"
+      EndIf
+    If rr = 13 Then
+      cA[xz] = "D"
+      EndIf
+    If rr = 14 Then
+      cA[xz] = "E"
+      EndIf
+    If rr = 15 Then
+      cA[xz] = "F"
+      EndIf
+    EndFor
+    c = "#" + cA[0] + "" + cA[1] + "" + cA[2] + "" + cA[3] + "" + cA[4] + "" + cA[5]
+    Goto css
+While fpstick < fps
+  fpstick = fpstick + 1
+  
+ TextWindow.Clear()
+ 
+ TextWindow.WriteLine("DEBUG CONSOLE")
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("딜레이 / 갱신 대기 시간")
+ TextWindow.WriteLine(fps + "/" + fpstick)
+  
+  If fpstick >= fps Then
+    
+    fpstick = 0
+    deley = deley + 1
+    
+    If deley >= ddy Then
+      
+      deley = 0
+      
+      h = Array.GetItemCount(tan) - 1
+      
+      GraphicsWindow.Clear()
+      
+      GraphicsWindow.DrawBoundText(0,0,GraphicsWindow.Width,"Source by Creta")
+      GraphicsWindow.DrawBoundText(0,16,GraphicsWindow.Width,seconds + ":" + miliseconds)
+      GraphicsWindow.DrawBoundText(0,32,GraphicsWindow.Width,"객체 수 : " + h)
+      GraphicsWindow.DrawBoundText(0,48,GraphicsWindow.Width,"속도 배속 : " + speed)
+      
+      '이곳에  그래픽코딩'
+      
+       size = 10
+       
+       For i = 0 To h
+           GraphicsWindow.BrushColor = tan[i][4]
+         GraphicsWindow.FillEllipse(tan[i][0] - (size / 2), tan[i][1] - (size / 2), size, size)
+         EndFor
+      
+      EndIf
+    
+   miliseconds = miliseconds + 1
+   
+   If miliseconds >= 60 then
+     seconds = seconds + 1
+     miliseconds = 0
+     EndIf
+   
+   '이곳에 프로그램코딩'
+   If e < 14 then
+   e = e + 1
+   Else
+   e = 0
+   speed = 2
+   EndIf
+   
+   speed = speed + (-speed) / 15
+   
+   h = Array.GetItemCount(tan) - 1
+   
+   For i = 0 To h
+     tan[i][0] = tan[i][0] + tan[i][2] * speed
+     tan[i][1] = tan[i][1] + tan[i][3] * speed
+     If tan[i][0] < 0 or tan[i][0] > 854 or tan[i][1] < 0 or tan[i][1] > 480 then
+       tan[i][0] = Mouse.mouseX - GraphicsWindow.Left
+       tan[i][1] = Mouse.MouseY - GraphicsWindow.Top
+       tan[i][2] = -randomspeed + Math.GetRandomNumber(randomspeed * 2)
+       tan[i][3] = -randomspeed + Math.GetRandomNumber(randomspeed * 2)
+       Goto randomcolors
+       css:
+       tan[i][4] = c
+      'r = Math.GetRandomNumber(5)
+      'If r = 1 then
+      '  tan[i][4] = "#0099FF"
+      '  EndIf
+      'If r = 2 then
+      '  tan[i][4] = "#FB642B"
+      '  EndIf
+      'If r = 3 then
+      '  tan[i][4] = "#8FEF61"
+      '  EndIf
+      'If r = 4 then
+      '  tan[i][4] = "#BE73F7"
+      '  EndIf
+      'If r = 5 then
+      '  tan[i][4] = "#F376C5"
+      '  EndIf
+     EndIf
+   EndFor
+    
+  EndIf
+EndWhile

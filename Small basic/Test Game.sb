@@ -1,0 +1,62 @@
+ticker = 0
+
+tick = 60
+
+GraphicsWindow.Width = 1024
+GraphicsWindow.Height = 768
+
+movieclip[0] = 240
+movieclip[1] = 400
+movieclip[2] = Controls.AddButton("▲",movieclip[0],movieclip[1])
+
+mousex = Mouse.MouseX - GraphicsWindow.Left
+mousey = Mouse.MouseY - GraphicsWindow.Top
+
+yspeed = 0
+gravity = 0.2
+
+map = File.ReadContents
+
+TextWindow.WriteLine(map[0][2])
+
+While ticker < tick
+  
+  ticker = ticker + 1
+  
+  mousex = Mouse.MouseX - GraphicsWindow.Left
+  mousey = Mouse.MouseY - GraphicsWindow.Top
+  
+    TextWindow.Clear()
+    TextWindow.WriteLine(ticker)
+    If ticker = tick Then
+      
+      yspeed = yspeed + gravity
+      If yspeed > 5 then
+      yspeed = 5
+      EndIf
+      
+      movieclip[0] = movieclip[0] + ((mousex - 20) - movieclip[0]) / 5
+      movieclip[1] = movieclip[1] + yspeed
+      Controls.Move(movieclip[2],movieclip[0],movieclip[1])
+      
+      while movieclip[1] > 700
+        movieclip[1] = movieclip[1] - 0.2
+        yspeed = 0
+        EndWhile
+      
+      While movieclip[0] < 0
+        movieclip[0] = movieclip[0] + 0.1
+        EndWhile
+      While movieclip[1] < 0
+        movieclip[1] = movieclip[1] + 0.1
+        EndWhile
+      While movieclip[0] > GraphicsWindow.Width
+        movieclip[0] = movieclip[0] - 0.1
+        EndWhile
+      While movieclip[1] > GraphicsWindow.Height
+        movieclip[1] = movieclip[1] - 0.1
+        EndWhile
+      
+      ticker = 0
+    EndIf
+  EndWhile
